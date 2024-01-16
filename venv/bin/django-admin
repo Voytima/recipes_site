@@ -1,4 +1,4 @@
-#!/home/divo/Desktop/GB_final/recipes_site/venv/bin/python3
+#!/home/divo/Desktop/GB_final/recipes_site/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

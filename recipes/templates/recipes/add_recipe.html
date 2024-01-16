@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Добавить рецепт{% endblock title %}
+
+{% block content %}
+  <form class="recipe-form" method="post" action="{% url 'add_recipe' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <p>
+        {{ form.title.label_tag }}
+        {{ form.title }}
+    </p>
+    <p>
+        {{ form.description.label_tag }}
+        {{ form.description }}
+    </p>
+    <div class="checkbox-group">
+        {{ form.ingredients.label_tag }}
+        <select name="{{ form.ingredients.name }}" class="ingredient-select" multiple>
+            {% for value, label in form.ingredients.field.choices|dictsort:1 %}
+                <option value="{{ value }}" {% if value in form.ingredients.value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    {{ form.steps.label_tag }}
+    {{ form.steps }}
+
+    {{ form.cooking_time.label_tag }}
+    {{ form.cooking_time }}
+
+    {{ form.image.label_tag }}
+    {{ form.image }}
+
+    {{ form.category.label_tag }}
+    {{ form.category }}
+
+    <button class="submit-button" type="submit">Добавить рецепт</button>
+  </form>
+
+  <!-- Инициализация Select2 для поля выбора ингредиентов -->
+  <script>
+      $(document).ready(function() {
+          $('.ingredient-select').select2({
+              tags: true,
+              tokenSeparators: [',', ' ']
+          });
+      });
+  </script>
+{% endblock content %}

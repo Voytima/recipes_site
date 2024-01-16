@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ recipe.title }}{% endblock title %}
+
+{% block content %}
+  <div class="recipe-detail">
+    <h2>{{ recipe.title }}</h2>
+    <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="recipe-image">
+    <p class="recipe-description">{{ recipe.description }}</p>
+    <div class="recipe-details">
+      <p><strong>Шаги:</strong></p>
+      <p class="recipe-steps">{{ recipe.steps }}</p>
+      <p><strong>Время приготовления:</strong> {{ recipe.cooking_time }} мин</p>
+      <p><strong>Ингредиенты:</strong></p>
+      <ul class="recipe-ingredients">
+        {% for ingredient in recipe.ingredients.all %}
+          <li>{{ ingredient.name }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <a href="{% url 'recipe_category_detail' category_name=recipe.category.name %}" class="back-link">Назад к категории</a>
+  </div>
+{% endblock content %}

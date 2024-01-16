@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Главная страница{% endblock title %}
+
+{% block content %}
+    <div class="main-img">
+        <img src="{% static "img/main.jpg" %}" alt="Изображение главной страницы">
+    </div>
+
+    <div class="random-recipes">
+        {% for recipe in random_recipes %}
+            <div class="recipe">
+                <h3>{{ recipe.title }}</h3>
+                <p>{{ recipe.description }}</p>
+                <a href="{% url 'recipe_detail' pk=recipe.pk %}">Подробнее</a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}
+
