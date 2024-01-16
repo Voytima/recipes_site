@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Редактировать профиль{% endblock title %}
+
+{% block content %}
+    <div class="edit-profile-form">
+        <h2>Редактировать профиль</h2>
+        <form method="post" action="{% url 'edit_profile' %}">
+            {% csrf_token %}
+            {% for f in form %}
+                {% if f.name == 'first_name' or f.name == 'last_name' or f.name == 'email' or f.name == 'username' %}
+                    <p><label for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
+                {% endif %}
+            {% endfor %}
+            <button type="submit">Сохранить изменения</button>
+        </form>
+    </div>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+       <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let messages = document.getElementsByClassName('messages')[0];
+            if (messages) {
+                let messageList = messages.getElementsByTagName('li');
+                for (let i = 0; i < messageList.length; i++) {
+                    alert(messageList[i].innerText);
+                }
+                messages.style.display = 'none';
+            }
+        });
+    </script>
+    {% endif %}
+{% if redirect_delay %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                window.location.href = "{% url 'index' %}";
+            }, {{ redirect_delay }});
+        });
+    </script>
+{% endif %}
+{% endblock content %}

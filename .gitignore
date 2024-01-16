@@ -73,3 +73,4 @@ cover/
 # IPython
 profile_default/
 ipython_config.py
+/venv/

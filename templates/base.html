@@ -1,0 +1,66 @@
+{% load static i18n%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Сайт рецептов{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <!-- Подключение библиотеки Select2 (CSS и JS) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-KsXsX1Zj/2LPMhHZEwQdj5TujPkP3kyjePzftAd9NFZCsm/n2Bz3cRE6/2pyD6hQK2uyDEYs4lZBdQjWbvKYBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-wEeDn7w3PMQ71iB7/fA26gZ0h+HHs2cBoM3xQNOuYz7oZ27pIM6fj+etYCr1JfVjq5n7n4/PlbQxhpKw2l+7Lw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-KJ3o2DKtI1IsOfOFP5DvoEvNVpZl1+lb8L/TMCeBf/0=" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <header>
+        <h1>{% block header %}
+            <div class="header">
+        <div class="header-title">
+            <h2><a href="{% url 'index' %}">Рецепты</a></h2>
+        </div>
+        <div class="header-categories">
+            <nav>
+                <ul>
+                    {% for category in all_categories %}
+                        <li><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        </div>
+            <div class="header-login">
+                {% if user.is_authenticated %}
+                <div class="dropdown">
+                    <button class="dropbtn">Приветствуем, {{ user.username }}!</button>
+                    <div class="dropdown-content">
+                        <a href="{% url 'edit_profile' %}">Редактировать профиль</a>
+                        <a href="{% url 'add_recipe' %}">Добавить рецепт</a>
+                        <form class="logout-form" method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit">Выйти</button>
+                        </form>
+                    </div>
+                </div>
+                {% else %}
+                <div class="dropdown">
+                    <button class="dropbtn">Меню</button>
+                    <div class="dropdown-content">
+                        <a href="{% url 'login' %}">Войти</a>
+                        <span>или</span>
+                        <a href="{% url 'register' %}">Зарегистрироваться</a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+    </div>
+        {% endblock %}</h1>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2023 Сайт рецептов</p>
+    </footer>
+</body>
+</html>
